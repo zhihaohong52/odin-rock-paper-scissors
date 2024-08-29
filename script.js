@@ -53,4 +53,12 @@ function playGame() {
     }
 }
 
-playGame();
+while (true) {
+    playGame();
+    const playAgain = prompt('Do you want to play again? (yes/no)');
+    if (playAgain.toLowerCase() !== 'yes') {
+        break;
+    }
+    humanScore = 0;
+    computerScore = 0;
+}
