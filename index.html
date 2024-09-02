@@ -4,8 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+
+    <script
+        src="https://kit.fontawesome.com/4c536a6bd5.js"
+        crossorigin="anonymous"
+    ></script>
 </head>
 <body>
+    <header class="header">
+        <h1 class="title">Rock Paper Scissors</h1>
+    </header>
+    <main class="main">
+        <div class="scoreboard">
+            <h2 class="score-info" id="scoreInfo">Choose your weapon!</h2>
+            <h3 class="score-message" id="scoreMessage">First to score 5 points wins the game</h3>
+            <div class="score-container">
+                <div class="score-box">
+                    <div class="choice" id="playerChoice">
+                        <img src="images/question-mark.png" alt="Question Mark">
+                    </div>
+                    <p class="score" id="playerScore">Player: 0</p>
+                </div>
+                <div class="score-box">
+                    <div class="choice" id="computerChoice">
+                        <img src="images/question-mark.png" alt="Question Mark">
+                    </div>
+                    <p class="score" id="computerScore">Computer: 0</p>
+                </div>
+            </div>
+        </div>
+        <div class="choices">
+            <button class="btn choice" id="rock">
+                <img src="images/rock.png" alt="Rock">
+            </button>
+            <button class="btn choice" id="paper">
+                <img src="images/paper.png" alt="Paper">
+            </button>
+            <button class="btn choice" id="scissors">
+                <img src="images/scissors.png" alt="Scissors">
+            </button>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>
+            Copyright ©
+            <script>
+                document.write(new Date().getFullYear());
+            </script>
+            zhihaohong52. All rights reserved.
+        </p>
+        <a href="https://github.com/zhihaohong52" target="_blank">
+            <i class="fab fa-github"></i>
+        </a>
+    </footer>
+    <div class="modal" id="endGameModal">
+        <p class="modal-title" id="endGameText"></p>
+        <button class="restart-btn" id="restartButton">Play Again</button>
+    </div>
+    <div class="overlay" id="overlay"></div>
     <script src="script.js"></script>
 </body>
 </html>

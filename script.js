@@ -1,3 +1,9 @@
+// Game logic
+
+let playerScore = 0;
+let computerScore = 0;
+let roundWinner = '';
+
 function getComputerChoice() {
     var randomNumber = Math.floor(Math.random() * 3);
     switch (randomNumber) {
@@ -10,55 +16,112 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    var humanChoice = prompt('Please choose rock, paper, or scissors.');
-    humanChoice = humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1).toLowerCase();
-
-    return humanChoice;
-}
-
-function playRound(humanChoice, computerChoice) {
-    if (humanChoice === computerChoice) {
-        console.log('It\'s a tie!');
+function playRound(playerChoice, computerChoice) {
+    if (playerChoice === computerChoice) {
+        roundWinner = 'tie';
     }
-    else if ((humanChoice === 'Rock' && computerChoice === 'Scissors') || (humanChoice === 'Paper' && computerChoice === 'Rock') || (humanChoice === 'Scissors' && computerChoice === 'Paper')) {
-        console.log('You win! ' + humanChoice + ' beats ' + computerChoice);
-        humanScore++;
+    else if ((playerChoice === 'Rock' && computerChoice === 'Scissors') || (playerChoice === 'Paper' && computerChoice === 'Rock') || (playerChoice === 'Scissors' && computerChoice === 'Paper')) {
+        roundWinner = 'player';
+        playerScore++;
     }
     else {
-        console.log('You lose! ' + computerChoice + ' beats ' + humanChoice);
+        roundWinner = 'computer';
         computerScore++;
     }
+    updateScoreBoard(roundWinner, playerChoice, computerChoice);
 }
 
-let humanScore = 0;
-let computerScore = 0;
+function isGameOver() {
+    return playerScore === 5 || computerScore === 5;
+}
 
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        const humanChoice = getHumanChoice();
-        const computerChoice = getComputerChoice();
-        playRound(humanChoice, computerChoice);
-        console.log("Current score: You: " + humanScore + " Computer: " + computerScore);
+// UI
+
+const scoreInfo = document.getElementById('scoreInfo');
+const scoreMessage = document.getElementById('scoreMessage');
+const playerScoreDisplay = document.getElementById('playerScore');
+const computerScoreDisplay = document.getElementById('computerScore');
+const playerChoiceDisplay = document.getElementById('playerChoice');
+const computerChoiceDisplay = document.getElementById('computerChoice');
+const rockButton = document.getElementById('rock');
+const paperButton = document.getElementById('paper');
+const scissorsButton = document.getElementById('scissors');
+const endGameModal = document.getElementById('endGameModal');
+const endGameText = document.getElementById('endGameText');
+const overlay = document.getElementById('overlay');
+const restartButton = document.getElementById('restartButton');
+
+rockButton.addEventListener('click', () => handleClick('Rock'));
+paperButton.addEventListener('click', () => handleClick('Paper'));
+scissorsButton.addEventListener('click', () => handleClick('Scissors'));
+restartButton.addEventListener('click', restartGame);
+overlay.addEventListener('click', hideModal);
+
+function handleClick(playerChoice) {
+    if (isGameOver()) {
+        openModal();
+        return;
     }
 
-    if (humanScore > computerScore) {
-        console.log('You win the game!');
+    const computerChoice = getComputerChoice();
+    playRound(playerChoice, computerChoice);
+    updateChoiceDisplay(playerChoice, computerChoice);
+    updateScore();
+
+    if (isGameOver()) {
+        openModal();
+        setFinalMessage();
     }
-    else if (humanScore < computerScore) {
-        console.log('You lose the game!');
+}
+
+function updateChoiceDisplay(playerChoice, computerChoice) {
+    // Update images
+    playerChoiceDisplay.innerHTML = `<img src="images/${playerChoice}.png" alt="${playerChoice}">`;
+    computerChoiceDisplay.innerHTML = `<img src="images/${computerChoice}.png" alt="${computerChoice}">`;
+}
+
+function updateScore() {
+    playerScoreDisplay.textContent = 'Player: ' + playerScore;
+    computerScoreDisplay.textContent = 'Computer: ' + computerScore;
+}
+
+function updateScoreBoard(roundWinner, playerChoice, computerChoice) {
+    if (roundWinner === 'tie') {
+        scoreInfo.textContent = 'It\'s a tie!';
+    }
+    else if (roundWinner === 'player') {
+        scoreInfo.textContent = 'You win! ' + playerChoice + ' beats ' + computerChoice;
     }
     else {
-        console.log('It\'s a tie game!');
+        scoreInfo.textContent = 'You lose! ' + computerChoice + ' beats ' + playerChoice;
     }
 }
 
-while (true) {
-    playGame();
-    const playAgain = prompt('Do you want to play again? (yes/no)');
-    if (playAgain.toLowerCase() !== 'yes') {
-        break;
-    }
-    humanScore = 0;
+function openModal() {
+    endGameModal.classList.add('active')
+    overlay.classList.add('active')
+}
+
+function hideModal() {
+    endGameModal.classList.remove('active')
+    overlay.classList.remove('active')
+}
+
+function setFinalMessage() {
+    return playerScore > computerScore ?
+        endGameText.textContent = 'You win the game!' :
+        endGameText.textContent = 'You lose the game!';
+}
+
+function restartGame() {
+    playerScore = 0;
     computerScore = 0;
+    scoreInfo.textContent = 'Choose your weapon!';
+    scoreMessage.textContent = 'First to score 5 points wins the game';
+    playerScoreDisplay.textContent = 'Player: 0';
+    computerScoreDisplay.textContent = 'Computer: 0';
+    playerChoiceDisplay.innerHTML = '<img src="images/question-mark.png" alt="Question Mark">';
+    computerChoiceDisplay.innerHTML = '<img src="images/question-mark.png" alt="Question Mark">';
+    endGameModal.classList.remove('active');
+    overlay.classList.remove('active');
 }
