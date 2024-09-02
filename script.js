@@ -75,9 +75,13 @@ function handleClick(playerChoice) {
 }
 
 function updateChoiceDisplay(playerChoice, computerChoice) {
+    // Change to lowercase
+    const playerChoiceLower = playerChoice.toLowerCase();
+    const computerChoiceLower = computerChoice.toLowerCase();
+
     // Update images
-    playerChoiceDisplay.innerHTML = `<img src="images/${playerChoice}.png" alt="${playerChoice}">`;
-    computerChoiceDisplay.innerHTML = `<img src="images/${computerChoice}.png" alt="${computerChoice}">`;
+    playerChoiceDisplay.innerHTML = `<img src="images/${playerChoiceLower}.png" alt="${playerChoiceLower}">`;
+    computerChoiceDisplay.innerHTML = `<img src="images/${computerChoiceLower}.png" alt="${computerChoiceLower}">`;
 }
 
 function updateScore() {
