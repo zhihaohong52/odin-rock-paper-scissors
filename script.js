@@ -80,8 +80,8 @@ function updateChoiceDisplay(playerChoice, computerChoice) {
     const computerChoiceLower = computerChoice.toLowerCase();
 
     // Update images
-    playerChoiceDisplay.innerHTML = `<img src="images/${playerChoiceLower}.png" alt="${playerChoiceLower}">`;
-    computerChoiceDisplay.innerHTML = `<img src="images/${computerChoiceLower}.png" alt="${computerChoiceLower}">`;
+    playerChoiceDisplay.innerHTML = `<img src="/images/${playerChoiceLower}.png" alt="${playerChoiceLower}">`;
+    computerChoiceDisplay.innerHTML = `<img src="/images/${computerChoiceLower}.png" alt="${computerChoiceLower}">`;
 }
 
 function updateScore() {
